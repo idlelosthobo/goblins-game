@@ -1,7 +1,5 @@
-print('Robit')
+from goblins import Game
 
-
-class Robit:
-
-    def __init__(self):
-        pass
+if __name__ == "__main__":
+    theApp = Game()
+    theApp.on_execute()

@@ -1,0 +1,1 @@
+from goblins.core.game import Game

@@ -1,0 +1,15 @@
+import random
+
+random.seed(1)
+
+SCROLL_SPEED = 1
+
+TILE_SIZE = 16
+
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+
+WORLD_LAYERS = 1
+WORLD_SIZE = 100
+
+
