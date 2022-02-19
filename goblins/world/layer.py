@@ -10,8 +10,8 @@ class Layer:
         self.surface = Surface((TILE_SIZE * WORLD_SIZE, TILE_SIZE * WORLD_SIZE))
         self.generate()
 
-    def draw(self, surface):
-        surface.blit(self.surface, (-8, -8))
+    def draw(self, surface, x, y):
+        surface.blit(self.surface, (x, y))
 
     def generate(self):
         grass_tile = Surface((TILE_SIZE, TILE_SIZE))
