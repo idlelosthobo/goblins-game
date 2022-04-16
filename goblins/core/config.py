@@ -2,6 +2,8 @@ import random
 
 random.seed(1)
 
+DEBUG = True
+
 SCROLL_SPEED = 100
 
 TILE_SIZE = 16

@@ -9,9 +9,11 @@ class Object:
         from goblins.core import TILE_SIZE
         self.surface = Surface((TILE_SIZE, TILE_SIZE))
         self.rect = self.surface.get_rect()
+        self.state = None
 
     def draw(self, surface):
         surface.blit(self.surface, (100, 100))
 
     def initialize(self):
         self.rect = self.surface.get_rect()
+

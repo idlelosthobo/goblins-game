@@ -25,15 +25,18 @@ class Game:
             return False
 
     def on_event(self, event):
+        keys = pygame.key.get_pressed()
+
+        if keys[K_w]:
+            self.camera.scroll_north()
+        if keys[K_s]:
+            self.camera.scroll_south()
+        if keys[K_a]:
+            self.camera.scroll_west()
+        if keys[K_d]:
+            self.camera.scroll_east()
+
         if event.type == KEYDOWN:
-            if event.key == K_w:
-                self.camera.scroll_north()
-            if event.key == K_s:
-                self.camera.scroll_south()
-            if event.key == K_a:
-                self.camera.scroll_west()
-            if event.key == K_d:
-                self.camera.scroll_east()
             if event.key == K_ESCAPE:
                 self.running = False
         if event.type == pygame.QUIT:

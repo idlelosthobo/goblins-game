@@ -1,4 +1,6 @@
-from goblins.core.config import SCROLL_SPEED, TILE_SIZE, WINDOW_WIDTH, WINDOW_HEIGHT, WORLD_SIZE
+import logging
+
+from goblins.core.config import *
 
 
 class Camera:
@@ -29,8 +31,6 @@ class Camera:
             else:
                 self.y += distance_y
 
-        print(f'{self.x = }, {self.y = }')
-
     def scroll_by(self, x, y):
         self.target_x += x
         self.target_y += y
@@ -46,6 +46,8 @@ class Camera:
 
         if self.limit_y < self.target_y:
             self.target_y = self.limit_y
+
+        logging.debug(f'Camera: Scroll to {self.target_x}, {self.target_y}')
 
     def scroll_east(self):
         self.scroll_by(SCROLL_SPEED, 0)

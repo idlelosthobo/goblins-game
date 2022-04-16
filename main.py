@@ -1,5 +1,5 @@
-from goblins import Game
+import goblins
 
 if __name__ == "__main__":
-    theApp = Game()
+    theApp = goblins.Game()
     theApp.on_execute()
