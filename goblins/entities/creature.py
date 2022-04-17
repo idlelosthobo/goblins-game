@@ -1,9 +1,10 @@
-from .object import Object
+from .entity import Entity
 
 
-class Creature(Object):
+class Creature(Entity):
     def __init__(self):
         super().__init__()
         self.speed = 0.0
         self.health = 0.0
         self.maximum_health = 0.0
+

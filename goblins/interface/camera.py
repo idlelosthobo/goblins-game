@@ -1,53 +1,40 @@
 import logging
 
 from goblins.core.config import *
+from goblins.core import Position
+from goblins.singletons import GlobalSingleton
 
 
 class Camera:
     def __init__(self):
-        self.x = 0.0
-        self.y = 0.0
-        self.target_x = 0.0
-        self.target_y = 0.0
-        self.layer = 0
+        self.position = Position()
+        self.target = Position()
         self.zoom_level = 1
         self.limit_x = TILE_SIZE * WORLD_SIZE - WINDOW_WIDTH
         self.limit_y = TILE_SIZE * WORLD_SIZE - WINDOW_HEIGHT
+        self.global_singleton = GlobalSingleton()
 
-    def scroll(self):
-        if self.x != self.target_x:
-            distance_x = (self.target_x - self.x) * 0.2
-
-            if 1.0 > distance_x > -1.0:
-                self.x = self.target_x
-            else:
-                self.x += distance_x
-
-        if self.y != self.target_y:
-            distance_y = (self.target_y - self.y) * 0.2
-
-            if 1.0 > distance_y > -1.0:
-                self.y = self.target_y
-            else:
-                self.y += distance_y
+    def update(self):
+        if self.position != self.target:
+            self.position.lerp_to(self.target)
+            self.global_singleton.world_translate.x = 0 - self.position.x
+            self.global_singleton.world_translate.y = 0 - self.position.y
 
     def scroll_by(self, x, y):
-        self.target_x += x
-        self.target_y += y
+        self.target.x += x
+        self.target.y += y
 
-        if 0.0 > self.target_x:
-            self.target_x = 0.0
+        if 0.0 > self.target.x:
+            self.target.x = 0.0
 
-        if self.limit_x < self.target_x:
-            self.target_x = self.limit_x
+        if self.limit_x < self.target.x:
+            self.target.x = self.limit_x
 
-        if 0.0 > self.target_y:
-            self.target_y = 0
+        if 0.0 > self.target.y:
+            self.target.y = 0
 
-        if self.limit_y < self.target_y:
-            self.target_y = self.limit_y
-
-        logging.debug(f'Camera: Scroll to {self.target_x}, {self.target_y}')
+        if self.limit_y < self.target.y:
+            self.target.y = self.limit_y
 
     def scroll_east(self):
         self.scroll_by(SCROLL_SPEED, 0)
@@ -59,16 +46,16 @@ class Camera:
         self.scroll_by(0, SCROLL_SPEED)
 
     def scroll_to(self, x, y):
-        self.target_x = x
-        self.target_y = y
+        self.target.x = x
+        self.target.y = y
 
     def scroll_west(self):
         self.scroll_by(SCROLL_SPEED * -1, 0)
 
     @property
     def translate_world_x(self):
-        return 0 - self.x
+        return 0 - self.position.x
 
     @property
     def translate_world_y(self):
-        return 0 - self.y
+        return 0 - self.position.y
