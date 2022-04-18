@@ -16,9 +16,9 @@ class Camera:
 
     def update(self):
         if self.position != self.target:
+            self.global_singleton.world_translate.x = 0.0 - self.position.x
+            self.global_singleton.world_translate.y = 0.0 - self.position.y
             self.position.lerp_to(self.target)
-            self.global_singleton.world_translate.x = 0 - self.position.x
-            self.global_singleton.world_translate.y = 0 - self.position.y
 
     def scroll_by(self, x, y):
         self.target.x += x

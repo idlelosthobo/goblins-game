@@ -68,7 +68,7 @@ class Position:
         self.layer = target.layer
 
     def lerp_to(self, target, lerp: float = 0.2):
-        lerp_snap = 0.02
+        lerp_snap = 0.01
         if self != target:
             distance_x = (target.x - self.x) * lerp
             distance_y = (target.y - self.y) * lerp
