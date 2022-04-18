@@ -1,4 +1,4 @@
-from .entity import Entity
+from goblins.entities.entity import Entity
 
 
 class Creature(Entity):

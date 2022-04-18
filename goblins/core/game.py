@@ -15,23 +15,29 @@ class Game:
         self.running = True
         self.camera = Camera()
         self.clock = None
-        self.display_surf = None
+        self.display_surface = None
+        self.font = None
         self.global_singleton = None
         self.size = self.width, self.height = WINDOW_WIDTH, WINDOW_HEIGHT
-        self.world = World()
+        self.world = None
 
     def on_init(self):
         try:
             logging.debug(f'Game: Starting')
             pygame.init()
+            pygame.font.init()
+            self.font = pygame.font.SysFont('Arial', 12)
             self.global_singleton = GlobalSingleton()
             self.clock = pygame.time.Clock()
-            self.display_surf = pygame.display.set_mode(self.size, pygame.SCALED | pygame.RESIZABLE)
+            self.display_surface = pygame.display.set_mode(self.size, pygame.SCALED | pygame.RESIZABLE)
+            self.world = World()
             logging.debug(f'Game: Loaded Successfully')
             return True
-        except:
-            logging.debug(f'Game: Failed to Load')
+        except Exception as e:
+            logging.error(f'Game: {e}')
+            logging.error(f'Game: Failed to Load')
             return False
+
 
     def on_event(self, event):
         keys = pygame.key.get_pressed()
@@ -57,8 +63,9 @@ class Game:
         self.world.update()
 
     def on_render(self):
-        self.world.layer_list[0].draw(self.display_surf)
-        self.world.draw(self.display_surf)
+        self.world.layer_list[0].draw(self.display_surface)
+        self.world.draw(self.display_surface)
+        self.display_surface.blit(self.font.render(f'{self.clock.get_fps():.2f}', False, (0, 0, 0)), (2, 2))
         pygame.display.flip()
 
     def on_cleanup(self):

@@ -22,6 +22,6 @@ class Layer:
         grass_tile = Surface((TILE_SIZE, TILE_SIZE))
         for x in range(WORLD_SIZE):
             for y in range(WORLD_SIZE):
-                grass_tile.fill((0, randint(50,60), 0))
+                grass_tile.fill((0, randint(50,56), 0))
                 self.surface.blit(grass_tile, (x * TILE_SIZE, y * TILE_SIZE))
 

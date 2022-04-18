@@ -23,9 +23,6 @@ class Entity:
             )
         )
 
-    def initialize(self):
-        self.rect = self.surface.get_rect()
-
     def tick(self):
         self.update_timer += self.global_singleton.delta_time
         if self.update_timer >= self.update_speed:
