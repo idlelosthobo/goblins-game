@@ -12,5 +12,5 @@ class Singleton(object):
     
 class GlobalSingleton(Singleton):
     delta_time = int()
-    world_translate = Position()
+    game_state = 'main_menu'
 

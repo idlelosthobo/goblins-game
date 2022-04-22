@@ -3,9 +3,8 @@ import logging
 import pygame
 from pygame.locals import *
 
-from goblins.core import WINDOW_WIDTH, WINDOW_HEIGHT
-from goblins.interface.camera import Camera
-from goblins.singletons import GlobalSingleton
+from goblins.core import GlobalSingleton, WINDOW_WIDTH, WINDOW_HEIGHT
+from goblins.interface import CameraSingleton
 from goblins.world import World
 from goblins.entities import Goblin
 
@@ -13,7 +12,7 @@ from goblins.entities import Goblin
 class Game:
     def __init__(self):
         self.running = True
-        self.camera = Camera()
+        self.camera_singleton = CameraSingleton()
         self.clock = None
         self.display_surface = None
         self.font = None
@@ -38,18 +37,17 @@ class Game:
             logging.error(f'Game: Failed to Load')
             return False
 
-
     def on_event(self, event):
         keys = pygame.key.get_pressed()
 
         if keys[K_w]:
-            self.camera.scroll_north()
+            self.camera_singleton.scroll_north()
         if keys[K_s]:
-            self.camera.scroll_south()
+            self.camera_singleton.scroll_south()
         if keys[K_a]:
-            self.camera.scroll_west()
+            self.camera_singleton.scroll_west()
         if keys[K_d]:
-            self.camera.scroll_east()
+            self.camera_singleton.scroll_east()
 
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
@@ -59,7 +57,7 @@ class Game:
 
     def on_loop(self):
         self.global_singleton.delta_time = self.clock.tick(60)
-        self.camera.update()
+        self.camera_singleton.update()
         self.world.update()
 
     def on_render(self):

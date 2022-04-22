@@ -1,9 +1,8 @@
 import random
 
 from goblins.entities.creatures.goblin import Goblin
-from goblins.core import WORLD_LAYERS
+from goblins.core import GlobalSingleton, WORLD_LAYERS
 from goblins.entities.plants.pumpkin import Pumpkin
-from goblins.singletons import GlobalSingleton
 from goblins.world.layer import Layer
 
 
@@ -16,15 +15,15 @@ class World:
 
     def generate(self):
         for i in range(WORLD_LAYERS):
-            self.layer_list.append(Layer())
-        for i in range(5000):
-            new_goblin = Goblin()
+            self.layer_list.append(Layer(self))
+        for i in range(3000):
+            new_goblin = Goblin(self.layer_list[0])
             new_goblin.position.x = random.randint(100, 900)
             new_goblin.position.y = random.randint(100, 900)
             new_goblin.update_speed = random.randint(20, 2000)
             self.entity_list.append(new_goblin)
 
-            new_pumpkin = Pumpkin()
+            new_pumpkin = Pumpkin(self.layer_list[0])
             new_pumpkin.position.x = random.randint(100, 900)
             new_pumpkin.position.y = random.randint(100, 900)
             self.entity_list.append(new_pumpkin)

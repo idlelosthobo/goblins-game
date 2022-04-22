@@ -1,23 +1,25 @@
 import logging
 
 from goblins.core.config import *
-from goblins.core import Position
-from goblins.singletons import GlobalSingleton
+from goblins.core import Position, Singleton
 
 
-class Camera:
-    def __init__(self):
-        self.position = Position()
-        self.target = Position()
-        self.zoom_level = 1
-        self.limit_x = TILE_SIZE * WORLD_SIZE - WINDOW_WIDTH
-        self.limit_y = TILE_SIZE * WORLD_SIZE - WINDOW_HEIGHT
-        self.global_singleton = GlobalSingleton()
+class CameraSingleton(Singleton):
+    position = Position()
+    target = Position()
+    zoom_level = 1
+    limit_x = TILE_SIZE * WORLD_SIZE - WINDOW_WIDTH
+    limit_y = TILE_SIZE * WORLD_SIZE - WINDOW_HEIGHT
+
+    def in_focus(self, position):
+        if self.position.x - WINDOW_WIDTH < position.x < self.position.x + (WINDOW_WIDTH * 2)  and \
+                self.position.y - WINDOW_HEIGHT < position.y < self.position.y + (WINDOW_HEIGHT * 2):
+            return True
+        else:
+            return False
 
     def update(self):
         if self.position != self.target:
-            self.global_singleton.world_translate.x = 0.0 - self.position.x
-            self.global_singleton.world_translate.y = 0.0 - self.position.y
             self.position.lerp_to(self.target)
 
     def scroll_by(self, x, y):
@@ -53,9 +55,5 @@ class Camera:
         self.scroll_by(SCROLL_SPEED * -1, 0)
 
     @property
-    def translate_world_x(self):
-        return 0 - self.position.x
-
-    @property
-    def translate_world_y(self):
-        return 0 - self.position.y
+    def world_translate(self):
+        return Position(0 - self.position.x, 0 - self.position.y)
